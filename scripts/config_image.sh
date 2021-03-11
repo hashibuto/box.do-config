@@ -58,9 +58,6 @@ DEBIAN_FRONTEND=noninteractive \
   docker-ce-cli \
   containerd.io
 
-# Docker post install config
-
-groupadd docker
 
 # Docker compose install
 
