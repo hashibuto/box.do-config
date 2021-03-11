@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 USERNAME=$1
 CONFIG_REPO=$2
