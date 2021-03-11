@@ -5,6 +5,9 @@ USERNAME=$1
 CONFIG_REPO=$2
 DOCKER_COMPOSE_VERSION=1.28.5
 
+# apt has a tendency to fail during this process, this ensures that it retries
+echo 'APT::Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries
+
 # Perform installation of core dependencies
 
 DEBIAN_FRONTEND=noninteractive \
