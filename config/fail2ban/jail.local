@@ -1,0 +1,16 @@
+[DEFAULT]
+
+ignoreip = 127.0.0.1/8
+bantime = 600
+findtime = 600
+maxretry = 3
+action = %(action_mwl)s
+
+[ssh-with-ufw]
+
+enabled = true
+port = 22
+filter = sshd
+action = ufw-custom
+logpath = /var/log/auth.log
+maxretry = 3
