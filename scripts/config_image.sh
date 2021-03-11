@@ -122,4 +122,6 @@ curl \
 
 # Enable UFW
 ufw --force enable
-service ssh restart
+
+# Shut the system down
+shutdown -h now
