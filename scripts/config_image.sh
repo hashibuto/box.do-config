@@ -123,5 +123,5 @@ curl \
 # Enable UFW
 ufw --force enable
 
-# Shut the system down
-shutdown -h now
+# Shut the system down (allow SSH to exit gracefully)
+shutdown -h +1
