@@ -28,7 +28,11 @@ DEBIAN_FRONTEND=noninteractive \
   ufw \
   fail2ban
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl \
+	--connect-timeout 30 \
+    --retry 5 \
+    --retry-delay 15 \
+    -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
@@ -57,7 +61,11 @@ groupadd docker
 
 # Docker compose install
 
-curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl \
+	--connect-timeout 30 \
+    --retry 5 \
+    --retry-delay 15 \
+	-L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 # Create administrative user
@@ -86,12 +94,30 @@ ufw allow http
 ufw allow https
 
 # Update SSHD configuration
-curl https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/sshd/ssh_config --output /etc/ssh/ssh_config
+curl \
+	--connect-timeout 30 \
+    --retry 5 \
+    --retry-delay 15 \
+	https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/sshd/ssh_config --output /etc/ssh/ssh_config
 
 # Fail2Ban configuration for SSH
-curl https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/fail2ban/defaults-debian.conf --output /etc/fail2ban/jail.d/defaults-debian.conf
-curl https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/fail2ban/ufw-custom.conf --output /etc/fail2ban/action.d/ufw-custom.conf
-curl https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/fail2ban/jail.local --output /etc/fail2ban/jail.local
+curl \
+	--connect-timeout 30 \
+    --retry 5 \
+    --retry-delay 15 \
+	https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/fail2ban/defaults-debian.conf --output /etc/fail2ban/jail.d/defaults-debian.conf
+
+curl \
+	--connect-timeout 30 \
+    --retry 5 \
+    --retry-delay 15 \
+	https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/fail2ban/ufw-custom.conf --output /etc/fail2ban/action.d/ufw-custom.conf
+curl \
+	--connect-timeout 30 \
+    --retry 5 \
+    --retry-delay 15 \
+    https://raw.githubusercontent.com/hashibuto/$CONFIG_REPO/master/config/fail2ban/jail.local --output /etc/fail2ban/jail.local
+
 /etc/init.d/fail2ban restart
 
 # Enable UFW
